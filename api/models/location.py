@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from .route import Route
 
 class Location(models.Model):
     LOCATION_TYPE_CHOICES  = [
@@ -18,7 +19,7 @@ class Location(models.Model):
         on_delete=models.CASCADE
     )
     route_id = models.ForeignKey(
-        'self', # might have to change this later to reference the app it is in https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey
+        'Route', # might have to change this later to reference the app it is in https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey
         on_delete=models.CASCADE
     )
 

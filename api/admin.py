@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models.user import User
 from .models.mango import Mango
 from .models.location import Location
+from .models.route import Route
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
@@ -41,3 +42,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Mango)
 admin.site.register(Location)
+admin.site.register(Route)
