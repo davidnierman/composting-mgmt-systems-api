@@ -4,6 +4,7 @@ from .models.user import User
 from .models.mango import Mango
 from .models.location import Location
 from .models.route import Route
+from .models.bin_model import Bin_Model
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
@@ -43,3 +44,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Mango)
 admin.site.register(Location)
 admin.site.register(Route)
+admin.site.register(Bin_Model)
