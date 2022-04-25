@@ -1,8 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-
-from api.models.location import location
-
 from .models.user import User
 from .models.mango import Mango
 from .models.location import Location

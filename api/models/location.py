@@ -2,19 +2,23 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 class Location(models.Model):
-    LOCATION_TYPE_CHOICES  = ['warehouse', 'residential', 'commercial' ]
+    LOCATION_TYPE_CHOICES  = [
+        ('WAREHOUSE', 'warehouse'),
+        ('RESIDENTIAL', 'residential'),
+        ( 'COMMERICAL', 'commercial'),
+    ]
 
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zip_code = models.IntegerField
-    type = models.CharField(choices=LOCATION_TYPE_CHOICES)
+    type = models.CharField(choices=LOCATION_TYPE_CHOICES, max_length=11)
     user_id = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE
     )
     route_id = models.ForeignKey(
-        'route', # might have to change this later to reference the app it is in https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey
+        'self', # might have to change this later to reference the app it is in https://docs.djangoproject.com/en/4.0/ref/models/fields/#django.db.models.ForeignKey
         on_delete=models.CASCADE
     )
 
