@@ -33,7 +33,7 @@ class Locations(generics.ListCreateAPIView):
             return JsonResponse({ 'location': location.data }, status=status.HTTP_201_CREATED)
         return JsonResponse(location.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# left off here to build a new search url path !
+# LocationSearch will search thru locations based on users search term and criteria
 class LocationsSearch(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = LocationSerializer
@@ -50,8 +50,9 @@ class LocationsSearch(generics.ListCreateAPIView):
         elif (search_criteria == 'user'):
             locations = Location.objects.filter(user = search_term)
         else:
+            # more info on exception handling can be found here: https://www.django-rest-framework.org/api-guide/exceptions/
             raise ValidationError({'search_criteria', "Please use one of the following valid search criteria 'id', 'street', 'user' "})
-        # # Run the data through the serializer
+        # Run the data through the serializer
         data = LocationSerializer(locations, many=True).data
         return Response({ 'locations': data })
 

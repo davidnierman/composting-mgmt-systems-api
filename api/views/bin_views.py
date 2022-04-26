@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from django.http import JsonResponse # this will be better in the future using react
 from django.shortcuts import get_object_or_404
 
@@ -33,6 +33,29 @@ class Bins(generics.ListCreateAPIView):
             bin.save()
             return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
         return JsonResponse(bin.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# LocationSearch will search thru bins based on users search term and criteria
+class BinsSearch(generics.ListCreateAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = BinSerializer
+    def get(self, request):
+        """Search request"""
+        # Get URL request Params
+        # query params reference link: https://www.django-rest-framework.org/api-guide/requests/
+        search_criteria = request.query_params['search_criteria']
+        search_term = request.query_params['search_term']
+        if(search_criteria == 'id'):
+            bins = Bin.objects.filter(id = search_term)
+        elif(search_criteria == 'barcode'):
+            bins = Bin.objects.filter(barcode__contains = search_term)
+        elif (search_criteria == 'location_id'):
+            bins = Bin.objects.filter(location_id = search_term)
+        else:
+            # more info on exception handling can be found here: https://www.django-rest-framework.org/api-guide/exceptions/
+            raise ValidationError({'search_criteria ERROR', "Please use one of the following valid search criteria 'id', 'barcode', 'location_id' "})
+        # Run the data through the serializer
+        data = BinSerializer(bins, many=True).data
+        return Response({ 'bins': data })
 
 class BinDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=(IsAuthenticated,)
