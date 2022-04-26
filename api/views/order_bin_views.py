@@ -47,11 +47,12 @@ class Order_BinDetail(generics.RetrieveUpdateDestroyAPIView):
         print('DELETE REQUEST RUNNNING')
         order_bin = get_object_or_404(Order_Bin, pk=pk)
         # Check the order_bin's user against the user making this request
-        if request.user != order_bin.user:
-            raise PermissionDenied('Unauthorized, you do not own this bin order')
-        # Only delete if the user owns the order_bin
-        order_bin.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if(request.user.is_superuser):
+            order_bin.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise PermissionDenied("Unauthorized, you do not have permission to delete this bin order")
+
 
     def partial_update(self, request, pk):
         """Update Request"""
