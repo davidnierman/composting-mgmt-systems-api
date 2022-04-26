@@ -13,7 +13,7 @@ class MangoSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user_id', 'route_id_id')
+        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user', 'route')
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation

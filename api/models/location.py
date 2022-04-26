@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
-
 class Location(models.Model):
     LOCATION_TYPE_CHOICES  = [
     ('WAREHOUSE', 'warehouse'),
@@ -13,7 +11,7 @@ class Location(models.Model):
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    zip_code = models.IntegerField
+    zip_code = models.CharField(max_length=10)
     property_type = models.CharField(choices=LOCATION_TYPE_CHOICES, max_length=11)
     user = models.ForeignKey(
         get_user_model(),
