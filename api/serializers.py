@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from api.models.order_bin import Order_Bin
 from rest_framework import serializers
 
 from .models.location import Location
@@ -26,6 +27,11 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = ('id','day_of_week', 'user_id')
+
+class Order_BinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order_Bin
+        fields = ('id', 'order_date', 'fulfilled_date', 'status', 'location_id', 'bin_model_id')
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation

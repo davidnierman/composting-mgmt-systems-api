@@ -8,7 +8,7 @@ class Order_Bin(models.Model):
     ]
 
     order_date = models.DateField()
-    fuflilled_date = models.DateField()
+    fulfilled_date = models.DateField()
     status = models.CharField(choices = STATUS_CHOICES, max_length=10)
     location_id = models.ForeignKey(
         'location',

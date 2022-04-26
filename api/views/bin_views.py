@@ -49,9 +49,12 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         # Locate bin to delete
         print('DELETE REQUEST RUNNNING')
         bin = get_object_or_404(Bin, pk=pk)
-        # Only delete if the user owns the bin
-        bin.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        # Only delete if the user making the request is a superuser
+        if(request.user.is_superuser):
+            bin.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise PermissionDenied("Unauthorized, you do not have permission to delete this bin")
 
     def partial_update(self, request, pk):
         """Update Request"""
