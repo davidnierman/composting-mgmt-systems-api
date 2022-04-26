@@ -1,6 +1,6 @@
 from django.urls import path
 
-from api.views.location_views import LocationDetail, Locations
+from api.views.location_views import LocationDetail, Locations, LocationsSearch
 from api.views.route_views import Routes, RouteDetail
 from api.views.bin_views import BinDetail, Bins
 from api.views.order_bin_views import Order_Bins, Order_BinDetail
@@ -11,6 +11,7 @@ urlpatterns = [
   	# Restful routing
     path('mangos/', Mangos.as_view(), name='mangos'),
     path('locations/', Locations.as_view(), name='locations'),
+    path('locations/search/', LocationsSearch.as_view(), name='locations_search'),
     path('locations/<int:pk>/', LocationDetail.as_view(), name = 'location_detail'),
     path('bins/', Bins.as_view(), name='bins'),
     path('bins/<int:pk>/', BinDetail.as_view(), name='bins'),

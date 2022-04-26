@@ -1,8 +1,7 @@
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from django.http import JsonResponse # this will be better in the future using react
 from django.shortcuts import get_object_or_404
 
@@ -33,6 +32,28 @@ class Locations(generics.ListCreateAPIView):
             location.save()
             return JsonResponse({ 'location': location.data }, status=status.HTTP_201_CREATED)
         return JsonResponse(location.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# left off here to build a new search url path !
+class LocationsSearch(generics.ListCreateAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = LocationSerializer
+    def get(self, request):
+        """Search request"""
+        # Get URL request Params
+        # query params reference link: https://www.django-rest-framework.org/api-guide/requests/
+        search_criteria = request.query_params['search_criteria']
+        search_term = request.query_params['search_term']
+        if(search_criteria == 'id'):
+            locations = Location.objects.filter(id = search_term)
+        elif(search_criteria == 'street'):
+            locations = Location.objects.filter(street__contains = search_term)
+        elif (search_criteria == 'user'):
+            locations = Location.objects.filter(user = search_term)
+        else:
+            raise ValidationError({'search_criteria', "Please use one of the following valid search criteria 'id', 'street', 'user' "})
+        # # Run the data through the serializer
+        data = LocationSerializer(locations, many=True).data
+        return Response({ 'locations': data })
 
 class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=(IsAuthenticated,)
