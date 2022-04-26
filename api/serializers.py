@@ -5,6 +5,7 @@ from .models.location import Location
 from .models.mango import Mango
 from .models.user import User
 from .models.bin import Bin
+from .models.route import Route
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,7 +20,12 @@ class LocationSerializer(serializers.ModelSerializer):
 class BinSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bin
-        fields = ('barcode', 'active', 'bin_model_id', 'location_id')
+        fields = ('id', 'barcode', 'active', 'bin_model_id', 'location_id')
+
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Route
+        fields = ('id','day_of_week', 'user_id')
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
