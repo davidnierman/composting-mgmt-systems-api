@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 
 
 from ..models.bin import Bin
-from ..serializers import BinSerializer
+from ..serializers import BinSerializer, LocationSerializer
 
 # Create your views here.
 # reference doc: https://www.django-rest-framework.org/api-guide/generic-views/#listcreateapiview
@@ -63,9 +63,23 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         """Show request"""
         # Locate the bin to show
         bin = get_object_or_404(Bin, pk=pk)
-        # Run the data through the serializer so it's formatted
+        # Run the bin data through the serializer so it's formatted
         data = BinSerializer(bin).data
-        return Response({ 'bin': data })
+        # use select_related to populate the location_id (location_id is a foreign key for the location objet)
+        # documentationc an be found here: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#select-related
+        bin_with_location_info = Bin.objects.select_related('location_id').get(id=pk) # id=pk => since you only want to populate the location related to the foreign key
+        # print("LOCATION INFO: ", location_info.location_id.as_dict())
+        # import the LocationSerialer from above --> this will be used to parse the location data
+        # pass the bin_with_location_info as an argument and call the foreignkey using dot notation and then call its method as_dict
+        # use dot notation to call the data key to get the data within the return of the locationSerializer
+        location = LocationSerializer(bin_with_location_info.location_id.as_dict()).data
+        # create a new object that combines the bin data and the location data
+        allData = {
+                "bin": data,
+                "location": location
+        }
+        # return the new object that has all the data
+        return Response({ 'AllData': allData })
 
     def delete(self, request, pk):
         """Delete request"""

@@ -26,7 +26,8 @@ class Locations(generics.ListCreateAPIView):
 
     def post(self, request):
         """Create request"""
-        request.data['location']['user_id'] = request.user.id
+        print('THIS IS THE REQUEST DATA:', request.data)
+        request.data['location']['user'] = request.user.id
         location = LocationSerializer(data=request.data['location'])
         if location.is_valid():
             location.save()

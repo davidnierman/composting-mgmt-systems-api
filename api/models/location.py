@@ -32,9 +32,10 @@ class Location(models.Model):
         return {
             'id': self.id,
             'street': self.street,
+            'city': self.city,
             'state': self.state,
             'zip_code': self.zip_code,
             'property_type': self.property_type,
-            'user_id': self.user,
-            'route_id': self.route
+            'user': self.user,
+            'route': self.route
             }

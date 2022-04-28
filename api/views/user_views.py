@@ -78,11 +78,17 @@ class SignOut(generics.DestroyAPIView):
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class ChangePassword(generics.UpdateAPIView):
+class ChangePassword(generics.UpdateAPIView): 
     def partial_update(self, request):
+        print('REQUEST AUTH:', request.auth)
+        print("PARTIALLY UPDATING!")
         user = request.user
+        # print('THIS IS THE USER:', user.token) #interesting user does not have token
         # Pass data through serializer
+        data=request.data
+        print('HERE IS THE PASSWORD DATA BEING PASSED: ', data)
         serializer = ChangePasswordSerializer(data=request.data['passwords'])
+        print("PASSWORD SERIALIZER: ", serializer)
         if serializer.is_valid():
             # This is included with the Django base user model
             # https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User.check_password

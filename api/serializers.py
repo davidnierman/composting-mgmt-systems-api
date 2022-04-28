@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
-from api.models.order_bin import Order_Bin
 from rest_framework import serializers
 
 from .models.location import Location
 from .models.mango import Mango
 from .models.user import User
 from .models.bin import Bin
+from api.models.order_bin import Order_Bin
 from .models.route import Route
 
 class MangoSerializer(serializers.ModelSerializer):
