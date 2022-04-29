@@ -18,6 +18,7 @@ urlpatterns = [
     path('locations/<int:pk>/', LocationDetail.as_view(), name = 'location_detail'),
     #### Bins ####
     path('bins/', Bins.as_view(), name='bins'),
+    path('bins/location/<int:pk>/', Bins.as_view(), name='bins'), # TESTING THIS OUT
     path('bins/search/', BinsSearch.as_view(), name='bin_search'),
     path('bins/<int:pk>/', BinDetail.as_view(), name='bins'),
     #### Order_Bins ####
