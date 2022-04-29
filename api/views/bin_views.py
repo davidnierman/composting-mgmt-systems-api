@@ -68,7 +68,6 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         # use select_related to populate the location_id (location_id is a foreign key for the location objet)
         # documentationc an be found here: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#select-related
         bin_with_location_info = Bin.objects.select_related('location_id').get(id=pk) # id=pk => since you only want to populate the location related to the foreign key
-        # print("LOCATION INFO: ", location_info.location_id.as_dict())
         # import the LocationSerialer from above --> this will be used to parse the location data
         # pass the bin_with_location_info as an argument and call the foreignkey using dot notation and then call its method as_dict
         # use dot notation to call the data key to get the data within the return of the locationSerializer

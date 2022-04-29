@@ -17,9 +17,9 @@ class Locations(generics.ListCreateAPIView):
     def get(self, request):
         """Index request"""
         # Get all the mangos:
-        locations = Location.objects.all()
+        # locations = Location.objects.all()
         # Filter the mangos by owner, so you can only see your owned mangos
-        # location = Location.objects.filter(owner=request.user.id)
+        locations = Location.objects.filter(user=request.user.id)
         # Run the data through the serializer
         data = LocationSerializer(locations, many=True).data
         return Response({ 'locations': data })
@@ -86,6 +86,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
     def partial_update(self, request, pk):
         """Update Request"""
         # Locate location
+        print('THIS IS THE REQUEST DATA:', request.data)
         # get_object_or_404 returns a object representation of our Location
         location = get_object_or_404(Location, pk=pk)
         # Check the location's owner against the user making this request
@@ -99,6 +100,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         if data.is_valid():
             # Save & send a 204 no content
             data.save()
+            # Signature: Response(data, status=None, template_name=None, headers=None, content_type=None)
             return Response(status=status.HTTP_204_NO_CONTENT)
         # If the data is not valid, return a response with the errors
         return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
