@@ -17,10 +17,9 @@ class Bins(generics.ListCreateAPIView):
     serializer_class = BinSerializer
     def get(self, request):
         """Index request"""
-        # Get all the bins:
-        bins = Bin.objects.all()
-        # Filter the Bin by owner, so you can only see your owned Bins
-        # bin = Bin.objects.filter(owner=request.user.id)
+        print('THIS IS THE REQUEST: ', request.data)
+        # Filter the Bin by location, so you can only see bins at a specific location
+        bins = Bin.objects.filter(location_id = request.data['location']['id'])
         # Run the data through the serializer
         data = BinSerializer(bins, many=True).data
         return Response({ 'bins': data })
