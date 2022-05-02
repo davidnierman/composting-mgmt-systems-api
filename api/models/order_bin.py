@@ -19,3 +19,8 @@ class Order_Bin(models.Model):
         on_delete=models.CASCADE
     )
 
+    def __str__(self):
+    # This must return a string
+        return f"Status: {self.status} Location: {self.location_id}"
+
+

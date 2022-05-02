@@ -26,7 +26,7 @@ class Location(models.Model):
     )
 
     def __str__(self):
-        return f"The Locations is a {self.property_type} location and can be found at: \n {self.street} \n {self.city} {self.state} {self.zip_code}"
+        return f"The Locations is a {self.property_type} location and can be found at: \n {self.street}"
 
     def as_dict(self):
         return {

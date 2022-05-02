@@ -13,7 +13,7 @@ class Bin(models.Model):
     )
 
     def __str__(self):
-        return f"bin: {self.barcode} is located at {self.location_id} and Active Status = {self.active}"
+        return f"Barcode: {self.barcode} | model: {self.bin_model_id} | Location: {self.location_id} | Active = {self.active}"
     
     def as_dict(self):
         return {
