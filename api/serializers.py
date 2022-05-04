@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 from .models.location import Location
 from .models.mango import Mango
-from .models.user import User
 from .models.bin import Bin
 from api.models.order_bin import Order_Bin
 from .models.route import Route
@@ -14,9 +13,10 @@ class MangoSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'color', 'ripe', 'owner')
 
 class LocationSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Location
-        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user', 'route')
+        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user_foreign_key', 'route', 'email')
 
 class BinSerializer(serializers.ModelSerializer):
     class Meta:

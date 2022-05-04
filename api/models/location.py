@@ -13,7 +13,7 @@ class Location(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     property_type = models.CharField(choices=LOCATION_TYPE_CHOICES, max_length=11)
-    user = models.ForeignKey(
+    user_foreign_key = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE
     )
@@ -24,6 +24,9 @@ class Location(models.Model):
         default='',
         null=True
     )
+
+    def email(self):
+        return self.user_foreign_key.email
 
     def __str__(self):
         return f"The Locations is a {self.property_type} location and can be found at: \n {self.street}"
