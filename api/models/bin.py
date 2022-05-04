@@ -3,7 +3,7 @@ from django.db import models
 class Bin(models.Model):
     barcode = models.IntegerField()
     active = models.BooleanField()
-    bin_model_id = models.ForeignKey(
+    bin_model_foreign_key = models.ForeignKey(
         'bin_model',
         on_delete=models.CASCADE
     )
@@ -11,6 +11,9 @@ class Bin(models.Model):
         'location',
         on_delete=models.CASCADE
     )
+
+    def model(self):
+        return self.bin_model_foreign_key.name
 
     def __str__(self):
         return f"Barcode: {self.barcode} | model: {self.bin_model_id} | Location: {self.location_id} | Active = {self.active}"
