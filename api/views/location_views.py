@@ -77,7 +77,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         print('DELETE REQUEST RUNNNING')
         location = get_object_or_404(Location, pk=pk)
         # Check the location's user against the user making this request
-        if request.user != location.user:
+        if request.user != location.user_foreign_key:
             raise PermissionDenied('Unauthorized, you do not own this location')
         # Only delete if the user owns the location
         location.delete()
@@ -90,7 +90,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         # get_object_or_404 returns a object representation of our Location
         location = get_object_or_404(Location, pk=pk)
         # Check the location's owner against the user making this request
-        if request.user != location.user:
+        if request.user != location.user_foreign_key:
             raise PermissionDenied('Unauthorized, you do not own this location')
 
         # Ensure the owner field is set to the current user's ID
