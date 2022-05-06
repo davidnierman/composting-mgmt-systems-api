@@ -1,5 +1,5 @@
 from django.urls import path
-
+from api.views.location_choices import LocationChoices
 from api.views.location_views import LocationDetail, Locations, LocationsSearch
 from api.views.route_views import Routes, RouteDetail
 from api.views.bin_views import BinDetail, Bins, BinsSearch
@@ -14,6 +14,7 @@ urlpatterns = [
     path('mangos/<int:pk>/', MangoDetail.as_view(), name='mango_detail'),
     #### Location ####
     path('locations/', Locations.as_view(), name='locations'),
+    path('locations/choices/<str:field>/', LocationChoices.as_view(), name='location_choices'),
     path('locations/search/', LocationsSearch.as_view(), name='locations_search'),
     path('locations/<int:pk>/', LocationDetail.as_view(), name = 'location_detail'),
     #### Bins ####

@@ -25,8 +25,6 @@ class Location(models.Model):
         null=True
     )
 
-    def property_type_choices(self):
-        return self.LOCATION_TYPE_CHOICES 
 
     def email(self):
         return self.user_foreign_key.email

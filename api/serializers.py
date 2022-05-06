@@ -16,7 +16,7 @@ class LocationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Location
-        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user_foreign_key', 'route', 'property_type_choices' , 'email')
+        fields = ('id', 'street', 'city', 'state', 'zip_code', 'property_type', 'user_foreign_key', 'route', 'email')
 
 class BinSerializer(serializers.ModelSerializer):
     class Meta:
