@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Bin(models.Model):
     barcode = models.IntegerField()
     active = models.BooleanField()
@@ -22,6 +23,6 @@ class Bin(models.Model):
         return {
             'id': self.id,
             'active': self.active,
-            'bin_model_id': self.bin_model_id,
-            'location_id': self.location_id
+            'model': Bin.objects.select_related('bin_model_foreign_key').get(id=self.id).bin_model_foreign_key.as_dict(),
+            'location': Bin.objects.select_related('location_id').get(id=self.id).location_id.as_dict()
         }

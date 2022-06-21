@@ -67,6 +67,8 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         bin = get_object_or_404(Bin, pk=pk)
         # Run the bin data through the serializer so it's formatted
         data = BinSerializer(bin).data
+        #testing new dict method
+        dict_data = bin.as_dict()
         # OLD WAY to populate info from another object using foreign key (hits db twice)
         l_id = data.get('location_id') 
         location_object = Bin.objects.get(id=l_id)
@@ -80,7 +82,7 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         location_parsing_with_dict_method = location_info.location_id.as_dict()
         # create a new object that combines the bin data and the location data
         allData = {
-                "bin": data,
+                "bin": dict_data,
                 "location - OLD WAY": loc,
                 "location1": location_with_serializer,
                 "location2": location_parsing_with_dict_method
