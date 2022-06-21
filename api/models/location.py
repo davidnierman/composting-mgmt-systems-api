@@ -40,6 +40,6 @@ class Location(models.Model):
             'state': self.state,
             'zip_code': self.zip_code,
             'property_type': self.property_type,
-            'user': self.user,
+            'user_foreign_key': self.email(), 
             'route': self.route
             }

@@ -67,17 +67,23 @@ class BinDetail(generics.RetrieveUpdateDestroyAPIView):
         bin = get_object_or_404(Bin, pk=pk)
         # Run the bin data through the serializer so it's formatted
         data = BinSerializer(bin).data
+        # OLD WAY to populate info from another object using foreign key (hits db twice)
+        l_id = data.get('location_id') 
+        location_object = Bin.objects.get(id=l_id)
+        loc = location_object.location_id.as_dict()
+        # NEW WAY to ppopulate another object using foreign key (hits db once)
         # use select_related to populate the location_id (location_id is a foreign key for the location objet)
         # documentationc an be found here: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#select-related
-        bin_with_location_info = Bin.objects.select_related('location_id').get(id=pk) # id=pk => since you only want to populate the location related to the foreign key
+        location_info = Bin.objects.select_related('location_id').get(id=pk) # id=pk => since you only want to populate the location related to the foreign key
         # import the LocationSerialer from above --> this will be used to parse the location data
-        # pass the bin_with_location_info as an argument and call the foreignkey using dot notation and then call its method as_dict
-        # use dot notation to call the data key to get the data within the return of the locationSerializer
-        location = LocationSerializer(bin_with_location_info.location_id.as_dict()).data
+        location_with_serializer = LocationSerializer(location_info.location_id).data
+        location_parsing_with_dict_method = location_info.location_id.as_dict()
         # create a new object that combines the bin data and the location data
         allData = {
                 "bin": data,
-                "location": location
+                "location - OLD WAY": loc,
+                "location1": location_with_serializer,
+                "location2": location_parsing_with_dict_method
         }
         # return the new object that has all the data
         return Response({ 'AllData': allData })
