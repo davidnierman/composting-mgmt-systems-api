@@ -54,14 +54,24 @@ class UserManager(BaseUserManager):
         return user
 
 # Inherit from AbstractBaseUser and PermissionsMixin:
+# RECREATE THE DATABASE AND MIGRATE!
 class User(AbstractBaseUser, PermissionsMixin):
     """Database model for users"""
+    USER_TYPE_CHOICES  = [
+    ('CUSTOMER', 'customer'),
+    ('SUPPORT', 'support'),
+    ('DRIVER', 'driver'),
+    ('ROUTE MANAGER', 'route manager'),
+    ('OFFICER', 'officer')
+    ]
     # As with any Django models, we need to define the fields
     # for the model with the type and options:
     email = models.EmailField(max_length=255, unique=True)
     # name = models.CharField(max_length=255)
+    type = models.CharField(choices=USER_TYPE_CHOICES, max_length=15)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
 
     # Any time we call User.objects (such as in objects.all() or objects.filter())
     # make sure to use the custom user manager we created.

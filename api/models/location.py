@@ -13,7 +13,7 @@ class Location(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     property_type = models.CharField(choices=LOCATION_TYPE_CHOICES, max_length=11)
-    user_foreign_key = models.ForeignKey(
+    user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE
     )
@@ -40,6 +40,6 @@ class Location(models.Model):
             'state': self.state,
             'zip_code': self.zip_code,
             'property_type': self.property_type,
-            'user_foreign_key': self.email(), 
+            'user': self.email(), 
             'route': self.route
             }
