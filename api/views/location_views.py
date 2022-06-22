@@ -19,7 +19,7 @@ class Locations(generics.ListCreateAPIView):
         # Get all the mangos:
         # locations = Location.objects.all()
         # Filter the mangos by owner, so you can only see your owned mangos
-        locations = Location.objects.filter(user_foreign_key=request.user.id)
+        locations = Location.objects.filter(user=request.user.id)
         # Run the data through the serializer
         data = LocationSerializer(locations, many=True).data
         return Response({ 'locations': data })
@@ -64,7 +64,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         # Locate the location to show
         location = get_object_or_404(Location, pk=pk)
         # Only want to show owned locations?
-        if request.user != location.user_foreign_key:
+        if request.user != location.user:
             raise PermissionDenied('Unauthorized, you do not own this mango')
 
         # Run the data through the serializer so it's formatted
@@ -77,7 +77,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         print('DELETE REQUEST RUNNNING')
         location = get_object_or_404(Location, pk=pk)
         # Check the location's user against the user making this request
-        if request.user != location.user_foreign_key:
+        if request.user != location.user:
             raise PermissionDenied('Unauthorized, you do not own this location')
         # Only delete if the user owns the location
         location.delete()
@@ -90,7 +90,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         # get_object_or_404 returns a object representation of our Location
         location = get_object_or_404(Location, pk=pk)
         # Check the location's owner against the user making this request
-        if request.user != location.user_foreign_key:
+        if request.user != location.user:
             raise PermissionDenied('Unauthorized, you do not own this location')
 
         # Ensure the owner field is set to the current user's ID

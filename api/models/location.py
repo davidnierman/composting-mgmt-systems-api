@@ -27,7 +27,7 @@ class Location(models.Model):
 
 
     def email(self):
-        return self.user_foreign_key.email
+        return self.user.email
 
     def __str__(self):
         return f"The Locations is a {self.property_type} location and can be found at: \n {self.street}"
