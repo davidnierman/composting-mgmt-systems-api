@@ -15,26 +15,27 @@ from ..serializers import BinSerializer, LocationSerializer
 class Bins(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = BinSerializer
-    def post(self, request): # this needs to be a post because request body is ignored in a get request
+    def post(self, request):
+        """Create request"""
+        request.data['bin']['user_id'] = request.user.id
+        bin = BinSerializer(data=request.data['bin'])
+        if bin.is_valid():
+            bin.save()
+            return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
+        return JsonResponse(bin.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Bins filtered by location
+class BinsByLocation(generics.ListCreateAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = BinSerializer
+    def get(self, request, pk):
         """Index request"""
-        print('THIS IS THE REQUEST DATA TO INDEX BINS BY LOCATION: ', request)
+        print("Bins by location class is being hit!")
         # Filter the Bin by location, so you can only see bins at a specific location
-        bins = Bin.objects.filter(location_id = request.data['location']['id'])
+        bins = Bin.objects.filter(location_id = pk)
         # Run the data through the serializer
         data = BinSerializer(bins, many=True).data
         return Response({ 'bins': data })
-
-    ##### FOR NOW I AM GOING TO HAVE ALL BINS CREATED THROUGH DJANGO ADMIN ####
-    #--------------------------------------------------------------------------
-    # def post(self, request):
-    #     """Create request"""
-    #     request.data['bin']['user_id'] = request.user.id
-    #     bin = BinSerializer(data=request.data['bin'])
-    #     if bin.is_valid():
-    #         bin.save()
-    #         return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
-    #     return JsonResponse(bin.errors, status=status.HTTP_400_BAD_REQUEST)
-    # --------------------------------------------------------------------------
 
 # LocationSearch will search thru bins based on users search term and criteria
 class BinsSearch(generics.ListCreateAPIView):

@@ -65,7 +65,7 @@ class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
         location = get_object_or_404(Location, pk=pk)
         # Only want to show owned locations?
         if request.user != location.user:
-            raise PermissionDenied('Unauthorized, you do not own this mango')
+            raise PermissionDenied('Unauthorized, you do not own this location')
 
         # Run the data through the serializer so it's formatted
         data = LocationSerializer(location).data

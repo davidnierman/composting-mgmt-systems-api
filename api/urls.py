@@ -2,7 +2,7 @@ from django.urls import path
 from api.views.location_choices import LocationChoices
 from api.views.location_views import LocationDetail, Locations, LocationsSearch
 from api.views.route_views import Routes, RouteDetail
-from api.views.bin_views import BinDetail, Bins, BinsSearch
+from api.views.bin_views import BinDetail, Bins, BinsByLocation, BinsSearch
 from api.views.order_bin_views import Order_Bins, Order_BinDetail
 from .views.mango_views import Mangos, MangoDetail
 from .views.user_views import SignUp, SignIn, SignOut, ChangePassword
@@ -19,7 +19,7 @@ urlpatterns = [
     path('locations/<int:pk>/', LocationDetail.as_view(), name = 'location_detail'),
     #### Bins ####
     path('bins/', Bins.as_view(), name='bins'),
-    path('bins/location/<int:pk>/', Bins.as_view(), name='bins'), # TESTING THIS OUT
+    path('bins/location/<int:pk>/', BinsByLocation.as_view(), name='bins_by_location'), # TESTING THIS OUT
     path('bins/search/', BinsSearch.as_view(), name='bin_search'),
     path('bins/<int:pk>/', BinDetail.as_view(), name='bins'),
     #### Order_Bins ####
