@@ -35,7 +35,7 @@ class Bins(generics.ListCreateAPIView):
             allData = {
                     "bin": dict_data,
             }
-            return Response({ 'AllData': allData })
+            return JsonResponse({'AllData': allData }, status=status.HTTP_201_CREATED)
             # old way below
             # return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
         return JsonResponse(bin.errors, status=status.HTTP_400_BAD_REQUEST)
