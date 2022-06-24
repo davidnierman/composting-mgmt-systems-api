@@ -16,6 +16,9 @@ class Bin(models.Model):
     def model(self):
         return self.bin_model_foreign_key.name
 
+    def location(self):
+        return self.location_id.street +" "+ self.location_id.city +" "+ self.location_id.state +", "+ self.location_id.zip_code
+
     def __str__(self):
         return f"Barcode: {self.barcode} | model: {self.bin_model_id} | Location: {self.location_id} | Active = {self.active}"
     

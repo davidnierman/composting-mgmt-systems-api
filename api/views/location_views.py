@@ -16,9 +16,9 @@ class Locations(generics.ListCreateAPIView):
     serializer_class = LocationSerializer
     def get(self, request):
         """Index request"""
-        # Get all the mangos:
+        # Get all the Locations:
         # locations = Location.objects.all()
-        # Filter the mangos by owner, so you can only see your owned mangos
+        # Filter the locations by owner, so you can only see your owned locations
         locations = Location.objects.filter(user=request.user.id)
         # Run the data through the serializer
         data = LocationSerializer(locations, many=True).data

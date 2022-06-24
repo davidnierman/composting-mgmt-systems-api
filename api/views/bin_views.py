@@ -15,14 +15,32 @@ from ..serializers import BinSerializer, LocationSerializer
 class Bins(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = BinSerializer
+
+    def get(self, request):
+        """Get all the Bins:"""
+        bins = Bin.objects.all()
+        data = BinSerializer(bins, many=True).data
+        return Response({ 'bins': data })
+
     def post(self, request):
         """Create request"""
         request.data['bin']['user_id'] = request.user.id
         bin = BinSerializer(data=request.data['bin'])
         if bin.is_valid():
             bin.save()
-            return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
+            # Locate the bin to show
+            bin_object = get_object_or_404(Bin, pk=bin.data['id'])
+            # run following methind to populate foreign objects & make it json
+            dict_data = bin_object.as_dict()
+            allData = {
+                    "bin": dict_data,
+            }
+            return Response({ 'AllData': allData })
+            # old way below
+            # return JsonResponse({ 'bin': bin.data }, status=status.HTTP_201_CREATED)
         return JsonResponse(bin.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# ADD AN INDEX HERE TO SHOW ALL BINS FOR CONVENIENCE
 
 # Bins filtered by location
 class BinsByLocation(generics.ListCreateAPIView):

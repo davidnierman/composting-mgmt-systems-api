@@ -20,7 +20,7 @@ class LocationSerializer(serializers.ModelSerializer):
 class BinSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bin
-        fields = ('id', 'barcode', 'active', 'bin_model_foreign_key', 'location_id', 'model')
+        fields = ('id', 'barcode', 'active','location_id','location', 'bin_model_foreign_key', 'model')
 
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:
